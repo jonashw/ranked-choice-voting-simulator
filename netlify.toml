@@ -1,0 +1,17 @@
+# Netlify builds and serves the simulator from this repo's main branch.
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # react-scripts 4 uses webpack 4, which needs the legacy OpenSSL provider on Node 17+.
+  NODE_OPTIONS = "--openssl-legacy-provider"
+  # CRA treats lint warnings as errors when CI=true.
+  CI = "false"
+
+# The app uses client-side routes (/examples), so unknown paths serve index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
